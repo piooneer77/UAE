@@ -13,6 +13,7 @@
 		18A4CA0520338B7F00C216C3 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0420338B7F00C216C3 /* MainTabBarViewController.swift */; };
 		18A4CA0820339A5400C216C3 /* MeetingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0720339A5400C216C3 /* MeetingCell.swift */; };
 		18A4CA0A20339D7F00C216C3 /* MeetingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0920339D7F00C216C3 /* MeetingController.swift */; };
+		18A4CA0C2034667D00C216C3 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0B2034667D00C216C3 /* LoginPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		18A4CA0420338B7F00C216C3 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		18A4CA0720339A5400C216C3 /* MeetingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCell.swift; sourceTree = "<group>"; };
 		18A4CA0920339D7F00C216C3 /* MeetingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingController.swift; sourceTree = "<group>"; };
+		18A4CA0B2034667D00C216C3 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				18A4CA0720339A5400C216C3 /* MeetingCell.swift */,
+				18A4CA0B2034667D00C216C3 /* LoginPageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				18A4C9F22033889D00C216C3 /* AppDelegate.swift in Sources */,
 				18A4CA0820339A5400C216C3 /* MeetingCell.swift in Sources */,
 				18A4CA0520338B7F00C216C3 /* MainTabBarViewController.swift in Sources */,
+				18A4CA0C2034667D00C216C3 /* LoginPageView.swift in Sources */,
 				18A4CA0A20339D7F00C216C3 /* MeetingController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
