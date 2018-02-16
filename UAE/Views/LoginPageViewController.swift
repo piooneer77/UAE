@@ -2,20 +2,39 @@
 //  LoginPageView.swift
 //  UAE
 //
-//  Created by Apple on 2/16/18.
+//  Created by Apple on 2/14/18.
 //  Copyright © 2018 syntaxerror. All rights reserved.
 //
 
 import UIKit
+import LocalAuthentication
 
-class LoginPageView: UIView {
+class LoginPageViewController: UIViewController {
     
     private var isChecked: Bool = false
+    private var authenticationErrorMessege : String?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        setLoginPageViewConstraints(loginPageView: loginPageView)
+//        view.addSubview(loginPageView)
         setViewsConstraints()
         rememberMeTapped()
+    }
+    
+//    let loginPageView : LoginPageView = {
+//        let view = LoginPageView()
+//        return view
+//    }()
+//
+//    private func setLoginPageViewConstraints(loginPageView: UIView){
+//        loginPageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//        loginPageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        view.addSubview(loginPageView)
+//    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     private func setViewsConstraints(){
@@ -30,7 +49,8 @@ class LoginPageView: UIView {
         setLeftLinkSeperatorViewLayoutConstraints(view: leftLinkSeperatorView)
         setRightLinkSeperatorViewLayoutConstraints(view: rightLinkSeperatorView)
         setLoginLinkLabelConstraints(label: loginLinkLabel)
-        setFaceRecognitionBackgroundImageView(image: faceRecognitionBackgroundImageView)
+        setFaceRecognitionBackgroundButtonView(button: faceRecognitionButtonView)
+        setFingerPrintBackgroundButtonView(button: fingerPrintButtonView)
         setLoginOptionsStackView(stack: loginOptionsStackView)
         setRememberMeCheckBoxViewLayoutConstraints(button: remeberMeButton)
         setRememberMeLabelConstraints(label: rememberMeButtonLabel)
@@ -39,22 +59,21 @@ class LoginPageView: UIView {
     }
     
     private func addSubViewsInsideMainViews(){
-        self.addSubview(loginBackgroundImageView)
-        self.addSubview(dubaiGovBackgroundImageView)
-        self.addSubview(emailTextView)
-        self.addSubview(emailSeperatorView)
-        self.addSubview(magicTextView)
-        self.addSubview(magicSeperatorView)
-        self.addSubview(loginButton)
-        self.addSubview(loginLinkLabel)
-        self.addSubview(leftLinkSeperatorView)
-        self.addSubview(rightLinkSeperatorView)
-        self.addSubview(faceRecognitionBackgroundImageView)
-        self.addSubview(loginOptionsStackView)
-        self.addSubview(remeberMeButton)
-        self.addSubview(rememberMeButtonLabel)
-        self.addSubview(rememberMeStackView)
-        self.addSubview(forgetPasswordButton)
+        view.addSubview(loginBackgroundImageView)
+        view.addSubview(dubaiGovBackgroundImageView)
+        view.addSubview(emailTextView)
+        view.addSubview(emailSeperatorView)
+        view.addSubview(magicTextView)
+        view.addSubview(magicSeperatorView)
+        view.addSubview(loginButton)
+        view.addSubview(loginLinkLabel)
+        view.addSubview(leftLinkSeperatorView)
+        view.addSubview(rightLinkSeperatorView)
+        view.addSubview(loginOptionsStackView)
+        view.addSubview(remeberMeButton)
+        view.addSubview(rememberMeButtonLabel)
+        view.addSubview(rememberMeStackView)
+        view.addSubview(forgetPasswordButton)
     }
     
     @objc func rememberMeTapped(){
@@ -63,6 +82,54 @@ class LoginPageView: UIView {
             remeberMeButton.setBackgroundImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         } else {
             remeberMeButton.setBackgroundImage(#imageLiteral(resourceName: "checked"), for: .normal)
+        }
+    }
+    
+    @objc func authenticateWithTouchID(){
+        let authenticationContext = LAContext()
+        let authenticationReason = "Please Use Touch ID To Login To The"
+        var authenticationError: NSError?
+        
+        if authenticationContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &authenticationError){
+            authenticationContext.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticationReason, reply: { (success, error) in
+                if success {
+                    print("Success")
+                }
+            })
+        } else {
+            print(authenticationError)
+        }
+    }
+    
+    private func touchIDFailedAuthentication(error : NSError){
+        switch(error) {
+        case LAError.authenticationFailed:
+            authenticationErrorMessege = "There was a problem verifying your identity."
+        case LAError.userCancel:
+            authenticationErrorMessege = "Authentication was canceled by user."
+            // Fallback button was pressed and an extra login step should be implemented for iOS 8 users.
+        // By the other hand, iOS 9+ users will use the pasccode verification implemented by the own system.
+        case LAError.userFallback:
+            authenticationErrorMessege = "The user tapped the fallback button (Fuu!)"
+        case LAError.systemCancel:
+            authenticationErrorMessege = "Authentication was canceled by system."
+        case LAError.passcodeNotSet:
+            authenticationErrorMessege = "Passcode is not set on the device."
+        case LAError.biometryNotAvailable:
+            authenticationErrorMessege = "Touch ID is not available on the device."
+        case LAError.biometryNotEnrolled:
+            authenticationErrorMessege = "Touch ID has no enrolled fingers."
+        // iOS 9+ functions
+        case LAError.biometryLockout:
+            authenticationErrorMessege = "There were too many failed Touch ID attempts and Touch ID is now locked."
+        case LAError.appCancel:
+            authenticationErrorMessege = "Authentication was canceled by application."
+        case LAError.invalidContext:
+            authenticationErrorMessege = "LAContext passed to this call has been previously invalidated."
+        // MARK: IMPORTANT: There are more error states, take a look into the LAError struct
+        default:
+            authenticationErrorMessege = "Touch ID may not be configured"
+            break
         }
     }
     
@@ -76,10 +143,10 @@ class LoginPageView: UIView {
     
     private func setDubaiGovBackgroundImageView(image: UIImageView){
         NSLayoutConstraint.activate([
-            image.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0),
-            image.topAnchor.constraint(equalTo: self.topAnchor, constant: 120),
+            image.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            image.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
             image.heightAnchor.constraint(equalToConstant: 70)
-            ])
+        ])
     }
     
     private let emailTextView : UITextField = {
@@ -96,10 +163,10 @@ class LoginPageView: UIView {
     private func setEmailTextViewConstraints(text : UITextField){
         NSLayoutConstraint.activate([
             text.topAnchor.constraint(equalTo: dubaiGovBackgroundImageView.bottomAnchor, constant: 50),
-            text.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
-            text.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
+            text.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            text.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             text.heightAnchor.constraint(equalToConstant: 40)
-            ])
+        ])
     }
     
     private let emailSeperatorView : UIView = {
@@ -115,7 +182,7 @@ class LoginPageView: UIView {
             view.leadingAnchor.constraint(equalTo: emailTextView.leadingAnchor, constant: 0),
             view.trailingAnchor.constraint(equalTo: emailTextView.trailingAnchor, constant: 0),
             view.heightAnchor.constraint(equalToConstant: 2)
-            ])
+        ])
     }
     
     private let magicTextView : UITextField = {
@@ -133,10 +200,10 @@ class LoginPageView: UIView {
     private func setMagicTextViewConstraints(text : UITextField){
         NSLayoutConstraint.activate([
             text.topAnchor.constraint(equalTo: emailSeperatorView.bottomAnchor, constant: 12),
-            text.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
-            text.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
+            text.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            text.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             text.heightAnchor.constraint(equalToConstant: 40)
-            ])
+        ])
     }
     
     private let magicSeperatorView : UIView = {
@@ -152,7 +219,7 @@ class LoginPageView: UIView {
             view.leadingAnchor.constraint(equalTo: magicTextView.leadingAnchor, constant: 0),
             view.trailingAnchor.constraint(equalTo: magicTextView.trailingAnchor, constant: 0),
             view.heightAnchor.constraint(equalToConstant: 2)
-            ])
+        ])
     }
     
     private let remeberMeButton : UIButton = {
@@ -167,7 +234,7 @@ class LoginPageView: UIView {
         NSLayoutConstraint.activate([
             button.heightAnchor.constraint(equalToConstant: 30),
             button.widthAnchor.constraint(equalToConstant: 30)
-            ])
+        ])
     }
     
     private let rememberMeButtonLabel : UILabel = {
@@ -185,7 +252,7 @@ class LoginPageView: UIView {
         NSLayoutConstraint.activate([
             label.widthAnchor.constraint(equalTo: loginButton.widthAnchor, multiplier: 0.3),
             label.heightAnchor.constraint(equalToConstant: 30)
-            ])
+        ])
     }
     
     private lazy var rememberMeStackView : UIStackView = {
@@ -199,10 +266,10 @@ class LoginPageView: UIView {
     
     private func setRememberMeStackView(stack: UIStackView){
         NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stack.topAnchor.constraint(equalTo: magicSeperatorView.bottomAnchor, constant: 20),
             stack.heightAnchor.constraint(equalToConstant: 30)
-            ])
+        ])
     }
     
     private var forgetPasswordButton : UIButton = {
@@ -219,8 +286,8 @@ class LoginPageView: UIView {
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: rememberMeStackView.bottomAnchor, constant: 20),
             button.heightAnchor.constraint(equalToConstant: 30),
-            button.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-            ])
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
     
     private var loginButton : UIButton = {
@@ -239,9 +306,9 @@ class LoginPageView: UIView {
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: forgetPasswordButton.bottomAnchor, constant: 30),
             button.heightAnchor.constraint(equalToConstant: 46),
-            button.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             button.widthAnchor.constraint(equalTo: magicSeperatorView.widthAnchor, multiplier: 1)
-            ])
+        ])
     }
     
     private let loginBackgroundImageView : UIImageView = {
@@ -254,11 +321,11 @@ class LoginPageView: UIView {
     
     private func setLoginBackgroundImageView(image: UIImageView){
         NSLayoutConstraint.activate([
-            image.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            image.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            image.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            image.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
-            ])
+            image.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            image.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            image.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        ])
     }
     
     private let loginLinkLabel : UILabel = {
@@ -275,10 +342,10 @@ class LoginPageView: UIView {
     private func setLoginLinkLabelConstraints(label : UILabel){
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 15),
-            label.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.widthAnchor.constraint(equalTo: loginButton.widthAnchor, multiplier: 0.3),
             label.heightAnchor.constraint(equalToConstant: 30)
-            ])
+        ])
     }
     
     private let leftLinkSeperatorView : UIView = {
@@ -294,7 +361,7 @@ class LoginPageView: UIView {
             view.leadingAnchor.constraint(equalTo: magicSeperatorView.leadingAnchor, constant: 0),
             view.trailingAnchor.constraint(equalTo: loginLinkLabel.leadingAnchor, constant: -5),
             view.heightAnchor.constraint(equalToConstant: 2)
-            ])
+        ])
     }
     
     private let rightLinkSeperatorView : UIView = {
@@ -310,11 +377,11 @@ class LoginPageView: UIView {
             view.leadingAnchor.constraint(equalTo: loginLinkLabel.trailingAnchor, constant: 5),
             view.trailingAnchor.constraint(equalTo: magicSeperatorView.trailingAnchor, constant: 0),
             view.heightAnchor.constraint(equalToConstant: 2)
-            ])
+        ])
     }
     
     private lazy var loginOptionsStackView : UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [faceRecognitionBackgroundImageView, fingerPrintBackgroundImageView])
+       let stack = UIStackView(arrangedSubviews: [faceRecognitionButtonView, fingerPrintButtonView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.distribution = .fillEqually
@@ -325,43 +392,40 @@ class LoginPageView: UIView {
     
     private func setLoginOptionsStackView(stack: UIStackView){
         NSLayoutConstraint.activate([
-            stack.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stack.topAnchor.constraint(equalTo: loginLinkLabel.bottomAnchor, constant: 50),
             stack.widthAnchor.constraint(equalToConstant: 120),
             stack.heightAnchor.constraint(equalToConstant: 50)
-            ])
+        ])
     }
     
-    private let faceRecognitionBackgroundImageView : UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = #imageLiteral(resourceName: "faceRecognition")
-        image.contentMode = .scaleAspectFill
-        return image
+    private let faceRecognitionButtonView : UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(#imageLiteral(resourceName: "faceRecognition"), for: .normal)
+        button.contentMode = .scaleAspectFill
+        return button
     }()
     
-    private func setFaceRecognitionBackgroundImageView(image: UIImageView){
+    private func setFaceRecognitionBackgroundButtonView(button: UIButton){
         NSLayoutConstraint.activate([
-            image.heightAnchor.constraint(equalToConstant: 50)
-            ])
+            button.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
-    private let fingerPrintBackgroundImageView : UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = #imageLiteral(resourceName: "fingerPrints")
-        image.contentMode = .scaleAspectFill
-        return image
+    private let fingerPrintButtonView : UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(#imageLiteral(resourceName: "fingerPrint"), for: .normal)
+        button.contentMode = .scaleAspectFill
+        button.addTarget(self, action: #selector(authenticateWithTouchID), for: .touchUpInside)
+        return button
     }()
     
-    private func setFingerPrintBackgroundImageView(image: UIImageView){
+    private func setFingerPrintBackgroundButtonView(button: UIButton){
         NSLayoutConstraint.activate([
-            image.heightAnchor.constraint(equalToConstant: 50)
-            ])
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+            button.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
 }
