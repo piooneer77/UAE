@@ -15,15 +15,16 @@ class MainTabBarViewController: UITabBarController {
         let layout = UICollectionViewFlowLayout()
         let meetingController = MeetingController(collectionViewLayout: layout)
         let meetingNavController = UINavigationController(rootViewController: meetingController)
-        meetingNavController.tabBarItem.title = "Meeting"
-        viewControllers = [meetingNavController]
+        meetingNavController.tabBarItem.title = "الاجتماعات"
+        meetingNavController.tabBarItem.image = #imageLiteral(resourceName: "meting")
+        viewControllers = [meetingNavController/*, createTabBarControllerWithTitle(title: "القرارات", image: #imageLiteral(resourceName: "decesions")),createTabBarControllerWithTitle(title: "المحادثات", image: #imageLiteral(resourceName: "chat"))*/]
     }
     
-    private func createTabBarControllerWithTitle(title: String, imageName: String) -> UIViewController {
+    private func createTabBarControllerWithTitle(title: String, image: UIImage) -> UINavigationController {
         let viewController = UIViewController()
         let navController = UINavigationController(rootViewController: viewController)
         navController.tabBarItem.title = title
-        navController.tabBarItem.image = UIImage(named: imageName)
+        navController.tabBarItem.image = image
         return navController
     }
 }

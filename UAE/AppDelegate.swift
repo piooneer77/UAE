@@ -45,7 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func buildNavigationControllerFromScreenBounds() {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = LoginPageViewController()
+        let layout = UICollectionViewFlowLayout()
+        //        layout.scrollDirection = .horizontal
+        let attendeesController : AttendeesController = AttendeesController(collectionViewLayout: layout)
+        window?.rootViewController = UINavigationController(rootViewController: attendeesController)
     }
 }
 

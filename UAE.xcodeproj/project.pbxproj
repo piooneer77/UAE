@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		183886842039DC130016212F /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183886832039DC130016212F /* MemberCell.swift */; };
+		183886862039DC200016212F /* GuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183886852039DC200016212F /* GuestCell.swift */; };
+		183886882039E11B0016212F /* AttendeesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183886872039E11B0016212F /* AttendeesController.swift */; };
+		1892210020399E4F00FDC91F /* TouchIDAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189220FF20399E4F00FDC91F /* TouchIDAuthentication.swift */; };
 		18A4C9F22033889D00C216C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4C9F12033889D00C216C3 /* AppDelegate.swift */; };
 		18A4C9F92033889D00C216C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A4C9F82033889D00C216C3 /* Assets.xcassets */; };
 		18A4C9FC2033889D00C216C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A4C9FA2033889D00C216C3 /* LaunchScreen.storyboard */; };
@@ -14,10 +18,13 @@
 		18A4CA0820339A5400C216C3 /* MeetingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0720339A5400C216C3 /* MeetingCell.swift */; };
 		18A4CA0A20339D7F00C216C3 /* MeetingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0920339D7F00C216C3 /* MeetingController.swift */; };
 		18A4CA0C2034667D00C216C3 /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CA0B2034667D00C216C3 /* LoginPageViewController.swift */; };
-		18E91401203716A50071A64F /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E91400203716A50071A64F /* LoginPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		183886832039DC130016212F /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
+		183886852039DC200016212F /* GuestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCell.swift; sourceTree = "<group>"; };
+		183886872039E11B0016212F /* AttendeesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesController.swift; sourceTree = "<group>"; };
+		189220FF20399E4F00FDC91F /* TouchIDAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDAuthentication.swift; sourceTree = "<group>"; };
 		18A4C9EE2033889D00C216C3 /* UAE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UAE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A4C9F12033889D00C216C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18A4C9F82033889D00C216C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -27,7 +34,6 @@
 		18A4CA0720339A5400C216C3 /* MeetingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCell.swift; sourceTree = "<group>"; };
 		18A4CA0920339D7F00C216C3 /* MeetingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingController.swift; sourceTree = "<group>"; };
 		18A4CA0B2034667D00C216C3 /* LoginPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
-		18E91400203716A50071A64F /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		189220FE20399E3000FDC91F /* DeviceAuthentication */ = {
+			isa = PBXGroup;
+			children = (
+				189220FF20399E4F00FDC91F /* TouchIDAuthentication.swift */,
+			);
+			path = DeviceAuthentication;
+			sourceTree = "<group>";
+		};
 		18A4C9E52033889D00C216C3 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +74,7 @@
 		18A4C9F02033889D00C216C3 /* UAE */ = {
 			isa = PBXGroup;
 			children = (
+				189220FE20399E3000FDC91F /* DeviceAuthentication */,
 				18A4CA0620339A4100C216C3 /* Views */,
 				18A4CA0320338B5D00C216C3 /* Controllers */,
 				18A4C9F12033889D00C216C3 /* AppDelegate.swift */,
@@ -73,8 +88,10 @@
 		18A4CA0320338B5D00C216C3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				18A4CA0B2034667D00C216C3 /* LoginPageViewController.swift */,
 				18A4CA0420338B7F00C216C3 /* MainTabBarViewController.swift */,
 				18A4CA0920339D7F00C216C3 /* MeetingController.swift */,
+				183886872039E11B0016212F /* AttendeesController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -83,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				18A4CA0720339A5400C216C3 /* MeetingCell.swift */,
-				18A4CA0B2034667D00C216C3 /* LoginPageViewController.swift */,
-				18E91400203716A50071A64F /* LoginPageView.swift */,
+				183886832039DC130016212F /* MemberCell.swift */,
+				183886852039DC200016212F /* GuestCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -162,10 +179,13 @@
 			files = (
 				18A4C9F22033889D00C216C3 /* AppDelegate.swift in Sources */,
 				18A4CA0820339A5400C216C3 /* MeetingCell.swift in Sources */,
+				183886862039DC200016212F /* GuestCell.swift in Sources */,
 				18A4CA0520338B7F00C216C3 /* MainTabBarViewController.swift in Sources */,
+				1892210020399E4F00FDC91F /* TouchIDAuthentication.swift in Sources */,
 				18A4CA0C2034667D00C216C3 /* LoginPageViewController.swift in Sources */,
 				18A4CA0A20339D7F00C216C3 /* MeetingController.swift in Sources */,
-				18E91401203716A50071A64F /* LoginPageView.swift in Sources */,
+				183886842039DC130016212F /* MemberCell.swift in Sources */,
+				183886882039E11B0016212F /* AttendeesController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
